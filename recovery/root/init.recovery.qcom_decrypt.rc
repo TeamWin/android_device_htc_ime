@@ -28,7 +28,7 @@ on property:init.svc.sbinhwservicemanager=running && property:hwservicemanager.r
 #                                                           #
 #############################################################
 on property:vold_decrypt.symlinked_vendor=1
-    mount /system_root/system /system
+    mount none /system_root/system /system bind ro
 
 on property:ro.crypto.fs_crypto_blkdev=*
     setprop fde.ready 0
