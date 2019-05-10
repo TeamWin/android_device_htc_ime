@@ -28,17 +28,18 @@
 import /init.recovery.qcom_decrypt.rc
 
 on init
-    export ANDROID_ROOT /system_root
-    start boot-1-0
-
-on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
 
+    start boot-1-0
+
+on fs
+    # Load Tuxera exFAT module
+    start load_modules
+
 on boot
-    export LD_CONFIG_FILE /sbin/ld.config.txt
     start chargeled
-	
+
     # Workaround for adb not coming up
     setprop sys.usb.config adb
     
@@ -48,6 +49,13 @@ service boot-1-0 /sbin/android.hardware.boot@1.0-service
     user root
     group root
     disabled
+    seclabel u:r:recovery:s0
+
+service load_modules /sbin/load_modules.sh
+    user root
+    group root
+    disabled
+    oneshot
     seclabel u:r:recovery:s0
 
 service chargeled /sbin/chargeled
