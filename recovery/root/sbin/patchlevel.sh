@@ -15,6 +15,7 @@ fi
 
 venpath="/dev/block/bootdevice/by-name/vendor$suffix"
 syspath="/dev/block/bootdevice/by-name/system$suffix"
+venbin="/vendor/bin"
 
 log_info()
 {
@@ -41,6 +42,20 @@ temp_mount()
 	else
 		log_error "Unable to mount $2 to temporary folder."
 		finish_error
+	fi
+}
+
+relink()
+{
+	log_info "Looking for $1 to update linker path..."
+	if [ -f "$1" ]; then
+		fname=$(basename "$1")
+		target="/sbin/$fname"
+		log_info "File found! Relinking $1 to $target..."
+		sed 's|/system/bin/linker64|///////sbin/linker64|' "$1" > "$target"
+		chmod 755 "$target"
+	else
+		log_info "File not found. Proceeding without relinking..."
 	fi
 }
 
@@ -75,6 +90,10 @@ fingerprint=$(getprop ro.build.fingerprint)
 product=$(getprop ro.build.product)
 
 log_info "Running patchlevel pre-decrypt script for TWRP..."
+relink "$venbin/qseecomd"
+relink "$venbin/hw/android.hardware.boot@1.0-service"
+relink "$venbin/hw/android.hardware.keymaster@3.0-service-qti"
+
 temp_mount "$TEMPVEN" "vendor" "$venpath"
 temp_mount "$TEMPSYS" "system" "$syspath"
 
