@@ -101,8 +101,8 @@ TW_USE_TOOLBOX := true
 
 # Custom Platform Version and Security Patch
 # TWRP Defaults
-PLATFORM_VERSION := 16.1.0
-PLATFORM_SECURITY_PATCH := 2025-12-05
+PLATFORM_VERSION := 20.1.0
+PLATFORM_SECURITY_PATCH := 2099-12-31
 # Must match build.prop of current system for vold decrypt to work properly!
 #PLATFORM_VERSION := 8.0.0
 # 1.15 Stock
