@@ -125,6 +125,8 @@ TARGET_HW_DISK_ENCRYPTION := true
 TW_INCLUDE_CRYPTO := true
 TW_CRYPTO_USE_SYSTEM_VOLD := hwservicemanager servicemanager qseecomd keymaster-3-0-qti
 TW_CRYPTO_SYSTEM_VOLD_MOUNT := vendor
+USE_COMMON_BOOTCTRL := true
+USE_COMMON_GPTUTILS := true
 
 # TWRP Debug Flags
 #TWRP_EVENT_LOGGING := true
