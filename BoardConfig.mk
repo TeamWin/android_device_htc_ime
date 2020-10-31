@@ -81,6 +81,7 @@ BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
 TARGET_USE_CUSTOM_LUN_FILE_PATH := /config/usb_gadget/g1/functions/mass_storage.0/lun.%d/file
 TW_BRIGHTNESS_PATH := "/sys/devices/platform/soc/a88000.i2c/i2c-0/0-002c/backlight/lcd-bl/brightness"
 TW_EXCLUDE_DEFAULT_USB_INIT := true
+TW_EXCLUDE_TWRPAPP := true
 TW_EXTRA_LANGUAGES := true
 TW_INCLUDE_NTFS_3G := true
 TW_INCLUDE_REPACKTOOLS := true
@@ -91,17 +92,17 @@ TW_THEME := portrait_hdpi
 TW_NO_EXFAT_FUSE := true
 TARGET_RECOVERY_DEVICE_MODULES := chargeled tzdata
 TW_RECOVERY_ADDITIONAL_RELINK_FILES += $(TARGET_OUT)/usr/share/zoneinfo/tzdata
-TARGET_RECOVERY_DEVICE_MODULES += libxml2 libicuuc android.hidl.base@1.0 bootctrl.$(TARGET_BOARD_PLATFORM)
-TW_RECOVERY_ADDITIONAL_RELINK_FILES += $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so $(TARGET_OUT_SHARED_LIBRARIES)/libicuuc.so $(TARGET_OUT)/lib64/android.hidl.base@1.0.so
+TARGET_RECOVERY_DEVICE_MODULES += libxml2 libicuuc android.hidl.base@1.0 android.hardware.boot@1.0-service bootctrl.$(TARGET_BOARD_PLATFORM)
+TW_RECOVERY_ADDITIONAL_RELINK_FILES += $(TARGET_OUT_VENDOR_EXECUTABLES)/hw/android.hardware.boot@1.0-service $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so $(TARGET_OUT_SHARED_LIBRARIES)/libicuuc.so $(TARGET_OUT)/lib64/android.hidl.base@1.0.so
 TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 TARGET_RECOVERY_QCOM_RTC_FIX := true
 TW_NO_SCREEN_BLANK := true
-TW_OVERRIDE_SYSTEM_PROPS := "ro.build.fingerprint"
+TW_OVERRIDE_SYSTEM_PROPS := "ro.build.fingerprint;ro.build.version.incremental"
 TW_USE_TOOLBOX := true
 
 # Custom Platform Version and Security Patch
 # TWRP Defaults
-PLATFORM_VERSION := 20.1.0
+PLATFORM_VERSION := 16.1.0
 PLATFORM_SECURITY_PATCH := 2099-12-31
 # Must match build.prop of current system for vold decrypt to work properly!
 #PLATFORM_VERSION := 8.0.0
@@ -130,10 +131,10 @@ USE_COMMON_GPTUTILS := true
 
 # TWRP Debug Flags
 #TWRP_EVENT_LOGGING := true
-#TARGET_USES_LOGD := true
-#TWRP_INCLUDE_LOGCAT := true
-#TARGET_RECOVERY_DEVICE_MODULES += debuggerd
-#TW_RECOVERY_ADDITIONAL_RELINK_FILES += $(TARGET_OUT_EXECUTABLES)/debuggerd
+TARGET_USES_LOGD := true
+TWRP_INCLUDE_LOGCAT := true
+TARGET_RECOVERY_DEVICE_MODULES += debuggerd
+TW_RECOVERY_ADDITIONAL_RELINK_FILES += $(TARGET_OUT_EXECUTABLES)/debuggerd
 #TARGET_RECOVERY_DEVICE_MODULES += strace
 #TW_RECOVERY_ADDITIONAL_RELINK_FILES += $(TARGET_OUT_OPTIONAL_EXECUTABLES)/strace
 #TARGET_RECOVERY_DEVICE_MODULES += twrpdec

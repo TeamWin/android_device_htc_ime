@@ -14,18 +14,27 @@
 # limitations under the License.
 #
 
-# Release name
-PRODUCT_RELEASE_NAME := ime
+LOCAL_PATH := device/htc/ime
 
-# Inherit from our custom product configuration
-$(call inherit-product, vendor/omni/config/common.mk)
+# Inherit from common AOSP configuration
+$(call inherit-product, build/target/product/embedded.mk)
 
-## Device identifier. This must come after all inclusions
-PRODUCT_DEVICE := $(PRODUCT_RELEASE_NAME)
-PRODUCT_NAME := omni_$(PRODUCT_DEVICE)
-PRODUCT_BRAND := htc
-PRODUCT_MODEL := HTC U12+
-PRODUCT_MANUFACTURER := HTC
+# Platform
+TARGET_BOARD_PLATFORM := sdm845
 
-# Inherit from device configuration
-$(call inherit-product, device/$(PRODUCT_BRAND)/$(PRODUCT_DEVICE)/device.mk)
+# Use the A/B updater.
+AB_OTA_UPDATER := true
+
+# Enable update engine sideloading by including the static version of the
+# boot_control HAL and its dependencies.
+PRODUCT_STATIC_BOOT_CONTROL_HAL := \
+    bootctrl.$(TARGET_BOARD_PLATFORM) \
+    libgptutils \
+    libz
+
+PRODUCT_PACKAGES += \
+    update_engine_sideload
+
+# HTC otacert
+PRODUCT_EXTRA_RECOVERY_KEYS += \
+    $(LOCAL_PATH)/security/htc
