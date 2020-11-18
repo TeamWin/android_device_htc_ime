@@ -35,6 +35,14 @@ PRODUCT_STATIC_BOOT_CONTROL_HAL := \
 PRODUCT_PACKAGES += \
     update_engine_sideload
 
+# qcom standard decryption for TWRP
+PRODUCT_PACKAGES += \
+    qcom_decrypt
+
+# tzdata
+PRODUCT_PACKAGES += \
+    tzdata_twrp
+
 # HTC otacert
 PRODUCT_EXTRA_RECOVERY_KEYS += \
     $(LOCAL_PATH)/security/htc

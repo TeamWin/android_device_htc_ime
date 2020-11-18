@@ -23,7 +23,11 @@
 # *not* include it on all devices, so it is safe even with hardware-specific
 # components.
 
+# OEM Info
 BOARD_VENDOR := htc
+
+# Default device path
+LOCAL_PATH := device/$(BOARD_VENDOR)/$(TARGET_DEVICE)
 
 # Architecture
 TARGET_ARCH := arm64
@@ -36,7 +40,7 @@ TARGET_2ND_ARCH := arm
 TARGET_2ND_ARCH_VARIANT := armv7-a-neon
 TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
-TARGET_2ND_CPU_VARIANT := kryo
+TARGET_2ND_CPU_VARIANT := $(TARGET_CPU_VARIANT)
 
 ENABLE_CPUSETS := true
 ENABLE_SCHEDBOOST := true
@@ -47,12 +51,22 @@ TARGET_NO_BOOTLOADER := true
 TARGET_USES_UEFI := true
 
 # Kernel
-BOARD_KERNEL_CMDLINE := androidboot.console=ttyMSM0 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 service_locator.enable=1 swiotlb=2048 androidboot.configfs=true androidboot.usbcontroller=a600000.dwc3
-BOARD_KERNEL_CMDLINE += androidboot.hardware=qcom
-BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := \
+    androidboot.configfs=true \
+    androidboot.console=ttyMSM0 \
+    androidboot.hardware=qcom \
+    androidboot.selinux=permissive \
+    androidboot.usbcontroller=a600000.dwc3 \
+    ehci-hcd.park=3 \
+    lpm_levels.sleep_disabled=1 \
+    msm_rtb.filter=0x237 \
+    service_locator.enable=1 \
+    swiotlb=2048 \
+    video=vfb:640x400,bpp=32,memsize=3072000
 BOARD_KERNEL_BASE := 0x00000000
+BOARD_KERNEL_IMAGE_NAME := Image.lz4-dtb
 BOARD_KERNEL_PAGESIZE := 4096
-TARGET_PREBUILT_KERNEL := device/$(BOARD_VENDOR)/$(TARGET_DEVICE)/prebuilt/Image.lz4-dtb
+TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/prebuilt/$(BOARD_KERNEL_IMAGE_NAME)
 
 # Platform
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno630
@@ -90,10 +104,18 @@ TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_HAS_DOWNLOAD_MODE := true
 TW_THEME := portrait_hdpi
 TW_NO_EXFAT_FUSE := true
-TARGET_RECOVERY_DEVICE_MODULES := chargeled tzdata
-TW_RECOVERY_ADDITIONAL_RELINK_FILES += $(TARGET_OUT)/usr/share/zoneinfo/tzdata
-TARGET_RECOVERY_DEVICE_MODULES += libxml2 libicuuc android.hidl.base@1.0 android.hardware.boot@1.0-service bootctrl.$(TARGET_BOARD_PLATFORM)
-TW_RECOVERY_ADDITIONAL_RELINK_FILES += $(TARGET_OUT_VENDOR_EXECUTABLES)/hw/android.hardware.boot@1.0-service $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so $(TARGET_OUT_SHARED_LIBRARIES)/libicuuc.so $(TARGET_OUT)/lib64/android.hidl.base@1.0.so
+TARGET_RECOVERY_DEVICE_MODULES += \
+    android.hardware.boot@1.0-service \
+    android.hidl.base@1.0 \
+    bootctrl.$(TARGET_BOARD_PLATFORM) \
+    chargeled \
+    libicuuc \
+    libxml2
+TW_RECOVERY_ADDITIONAL_RELINK_FILES += \
+    $(TARGET_OUT)/lib64/android.hidl.base@1.0.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libicuuc.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so \
+    $(TARGET_OUT_VENDOR_EXECUTABLES)/hw/android.hardware.boot@1.0-service
 TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 TARGET_RECOVERY_QCOM_RTC_FIX := true
 TW_NO_SCREEN_BLANK := true
@@ -124,10 +146,15 @@ PLATFORM_SECURITY_PATCH := 2099-12-31
 # Encryption
 TARGET_HW_DISK_ENCRYPTION := true
 TW_INCLUDE_CRYPTO := true
-TW_CRYPTO_USE_SYSTEM_VOLD := hwservicemanager servicemanager qseecomd keymaster-3-0-qti
+TW_CRYPTO_USE_SYSTEM_VOLD := \
+    hwservicemanager \
+    keymaster-3-0-qti \
+    qseecomd \
+    servicemanager
 TW_CRYPTO_SYSTEM_VOLD_MOUNT := vendor
 USE_COMMON_BOOTCTRL := true
 USE_COMMON_GPTUTILS := true
+BOARD_USES_QCOM_DECRYPTION := true
 
 # TWRP Debug Flags
 #TWRP_EVENT_LOGGING := true
