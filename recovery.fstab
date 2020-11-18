@@ -5,8 +5,23 @@
 #TODO: Add 'check' as fs_mgr_flags with data partition.
 # Currently we dont have e2fsck compiled. So fs check would failed.
 
-#<src>                                                 <mnt_point>        <type>  <mnt_flags and options>                            <fs_mgr_flags>                                                                                 voldmanaged=usb:auto
+#<src>                                                 <mnt_point>        <type>  <mnt_flags and options>                                                       <fs_mgr_flags>
+/dev/block/bootdevice/by-name/system                    /system            ext4    ro,barrier=1,discard                                                          wait,slotselect
+/dev/block/bootdevice/by-name/system                    /system_image      emmc    defaults                                                                      slotselect
+/dev/block/bootdevice/by-name/vendor                    /vendor            ext4    ro,barrier=1,discard                                                          wait,slotselect
+/dev/block/bootdevice/by-name/vendor                    /vendor_image      emmc    defaults                                                                      slotselect
+/dev/block/bootdevice/by-name/userdata                  /data              ext4    nosuid,nodev,noatime,barrier=1,noauto_da_alloc,discard,lazytime,errors=panic  wait,check,formattable,encryptable=/dev/block/bootdevice/by-name/extra
+/dev/block/bootdevice/by-name/boot                      /boot              emmc    defaults                                                                      slotselect
+/dev/block/bootdevice/by-name/devlog                    /devlog            ext4    ro,nosuid,nodev,noatime,barrier=1,errors=continue,lazytime                    wait,check,formattable,display="DevLog"
+/dev/block/bootdevice/by-name/carrier                   /carrier           ext4    ro,nosuid,nodev,noatime,barrier=1,grpid,lazytime                              wait,check,formattable,display="Carrier"
+/dev/block/bootdevice/by-name/cota                      /cota              ext4    ro,nosuid,nodev,noatime,barrier=1,grpid,lazytime                              wait,check,formattable,display="COTA"
+/dev/block/bootdevice/by-name/persist                   /persist           ext4    ro,noatime,nosuid,nodev,barrier=1                                             wait,check,formattable,display="Persist"
+
 # Need to have this entry in here even though the mount point itself is no longer needed.
 # The update_engine code looks for this entry in order to determine the boot device address
 # and fails if it does not find it.
-/dev/block/bootdevice/by-name/misc                      /misc              emmc    defaults                                             defaults
+/dev/block/bootdevice/by-name/misc                      /misc              emmc    defaults                                                                      defaults
+
+# Removable storage
+/dev/block/mmcblk0p1                                    /external_sd       vfat    nosuid,nodev                                                                  storage,wipeingui,removable,encryptable=footer
+/dev/block/sdg1                                         /usb_otg           vfat    defaults                                                                      storage,wipeingui,removable,display="USB Storage"
