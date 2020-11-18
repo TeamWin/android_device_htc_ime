@@ -25,6 +25,10 @@ TARGET_BOARD_PLATFORM := sdm845
 # Use the A/B updater.
 AB_OTA_UPDATER := true
 
+PRODUCT_PACKAGES += \
+    bootctrl.$(TARGET_BOARD_PLATFORM) \
+    update_engine_sideload
+
 # Enable update engine sideloading by including the static version of the
 # boot_control HAL and its dependencies.
 PRODUCT_STATIC_BOOT_CONTROL_HAL := \
@@ -32,8 +36,17 @@ PRODUCT_STATIC_BOOT_CONTROL_HAL := \
     libgptutils \
     libz
 
+# qcom standard decryption for TWRP
 PRODUCT_PACKAGES += \
-    update_engine_sideload
+    qcom_decrypt
+
+# tzdata
+PRODUCT_PACKAGES += \
+    tzdata_twrp
+
+# Charging LED support for TWRP
+PRODUCT_PACKAGES += \
+    chargeled
 
 # HTC otacert
 PRODUCT_EXTRA_RECOVERY_KEYS += \
