@@ -115,12 +115,12 @@ TW_RECOVERY_ADDITIONAL_RELINK_FILES += \
 TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 TARGET_RECOVERY_QCOM_RTC_FIX := true
 TW_NO_SCREEN_BLANK := true
-TW_OVERRIDE_SYSTEM_PROPS := "ro.build.fingerprint;ro.build.version.incremental"
+TW_OVERRIDE_SYSTEM_PROPS := "ro.build.fingerprint;ro.build.version.incremental;ro.product.system.device"
 TW_USE_TOOLBOX := true
 
 # Custom Platform Version and Security Patch
 # TWRP Defaults
-PLATFORM_VERSION := 16.1.0
+PLATFORM_VERSION := 20.1.0
 PLATFORM_SECURITY_PATCH := 2099-12-31
 # Must match build.prop of current system for vold decrypt to work properly!
 #PLATFORM_VERSION := 8.0.0
